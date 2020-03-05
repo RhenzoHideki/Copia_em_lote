@@ -1,51 +1,73 @@
 #include <iostream>
-
 using std::cout;
 using std::cin;
 using std::endl;
+using std::cerr;
+using std::ios;
 
 #include <string>
 using std::string;
+using std::basic_string;
 
 #include <fstream>
 using std::ifstream;
 using std::ofstream ;
 
-#include <stack>
-using std::stack;
+#include <queue>
+using std::queue;
+
+#include <sstream>
+using std::stringstream ;
+
+#include <experimental/filesystem>
+
+#include <stdlib.h>
+#include <stdio.h>
+
+bool copiar_doc(basic_string<char> srce_file, basic_string<char> dest_file )
+{
+    ifstream srce( srce_file, ios::binary ) ;
+    ofstream dest(dest_file, ios::binary);
+
+    dest << srce.rdbuf();
+    srce.close();
+
+}
 
 
+int main() {
+
+    string line;    //variaveis
+    string T;
+    string original;
+    string directory, path ;
+    queue<string> fila;
 
 
-int main(int argc, char * argv[]) {
-    ifstream fileIn;
-    string line;
-    int i;
-    int k = 13;
-    string t ;
-    t = "abc";
+    getline(cin , line ) ; //Pegar o diretorio e arquivos desejados
+    stringstream X(line);
 
 
-    while (k = 13) {
+    while (getline(X, T, ' ')) {
+        fila.push(T);
+    };
 
-        fileIn.open(argv[i]);
+    directory=fila.front();
+    path=fila.front();
+    fila.pop();
 
-        if (fileIn.is_open()) {
 
-            ofstream arq[i];
-            arq[i].open(t);
+    while (!fila.empty()) {
 
-            while (getline(fileIn, line)) {
+        path = directory + fila.front();
 
-                arq[i].copyfmt(fileIn);
-                cout << line << endl;
-            }
+        original = fila.front();
 
-            fileIn.close();
+        copiar_doc( fila.front() , path );
 
-        } else {
-            cout << "Não possivel abrir" << endl;
-        }
-        i++;
+        fila.pop();
+
     }
+
+
 }
